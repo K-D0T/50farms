@@ -23,50 +23,32 @@
 <br/>
 <br/>
 <style type="text/css">
-  .form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    max-width: 1700px;
-    margin: auto;
+    input[type=text], select {
+    width: 100%;
+    padding: 7px 10px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
   }
 
-  /* Add some margins for each label */
-  .form-inline label {
-    margin: auto;
-  }
-
-  /* Style the input fields */
-  .form-inline input {
-    vertical-align: middle;
-    margin: auto;
-    padding: 5px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-  }
-
-  /* Style the submit button */
-  .form-inline button {
-    padding: 5px 10px;
+/* Style the submit button */
+    .btn {
+    width: 10%;
     background-color: #198754;
-    border: 1px solid #ddd;
     color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
 
-  .form-inline button:hover {
-    background-color: royalblue;
+/* Add a background color to the submit button on mouse-over */
+  input[type=submit]:hover {
+    background-color: #45a049;
   }
-
-  /* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
-  @media (max-width: 800px) {
-    .form-inline input {
-      margin: auto;
-    }
-
-    .form-inline {
-      flex-direction: column;
-
-    }
-}
 </style>
 
   <form id="msform" action="{% url 'SignUp_saveBulls' %}" enctype='multipart/form-data' method="post" class="form-inline">
@@ -86,6 +68,23 @@
       <label for="Color" style="font-family:Copperplate Gothic"><b>Color</b></label>
       <input type="text" name="color">
 
+      <label for="owner" style="font-family:Copperplate Gothic"><b>Owner</b></label>
+      <select id="owner" name="owner">
+        <option value="Brad Amos">Brad Amos</option>
+        <option value="David Jackson">David Jackson</option>
+      </select>
+
+      <label for="pasture" style="font-family:Copperplate Gothic"><b>Pasture</b></label>
+      <select id="pasture" name="pasture">
+        <option value="Benton County">Benton County</option>
+        <option value="Feed Mill">Feed Mill</option>
+        <option value="Maysville">Maysville</option>
+        <option value="Caswell">Caswell</option>
+        <option value="Obrian">Obrian</option>
+        <option value="No Place">No Place</option>
+
+      </select>  
+
       <label for="comments" style="font-family:Copperplate Gothic"><b>Comments</b></label>
       <input type="text" name="comments">
 
@@ -98,7 +97,7 @@
     </fieldset>
   </form>
 <br/>
-
+<hr/>
 <div class="container">
   <div class="row">
     {% for bulls in bull %}
@@ -109,8 +108,10 @@
             <h5 class="card-title" style="font-family:Copperplate Gothic">Tag: {{ bulls.tagnum }}</h5>
             <p class="card-text" style="font-family:Copperplate Gothic">Sex: {{ bulls.sex }}</p>
             <p class="card-text" style="font-family:Copperplate Gothic">Age: {{ bulls.age }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Color: {{ bulls.color }}</p>
+            <p class="card-text" style="font-family:Copperplate Gothic">Color: {{ bulls.color }}</p>            
             <p class="card-text" style="font-family:Copperplate Gothic">Comments: {{ bulls.comments }}</p>
+            <p class="card-text" style="font-family:Copperplate Gothic">Pasture: {{ bulls.pasture }}</p>
+            <p class="card-text" style="font-family:Copperplate Gothic">Owner: {{ bulls.owner }}</p>
           </div>
         </div>
         <br/>

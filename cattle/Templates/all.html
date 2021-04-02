@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-    <title>Cattle Works</title>
+    <title>Cattle Works</title> 
   </head>
   <body>
     <!-- Optional JavaScript; choose one of the two! -->
@@ -22,28 +22,96 @@
 
 <br/>
 <br/>
+<style type="text/css">
+  .tag {
+    display: none
+  }
 
-<div class="container">
-  <div class="row">
-    {% for SubmitModel in queryset %}
-      <div class="col-sm-4 px-sm-3">
-        <div class="card" style="width: 20rem;">
-          <img src="/media/{{ SubmitModel.pic }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Tag: {{ SubmitModel.tagnum }}</h5>
-            <p class="card-text">Sex: {{ SubmitModel.sex }}</p>
-            <p class="card-text">Age: {{ SubmitModel.age }}</p>
-            <p class="card-text">Color: {{ SubmitModel.color }}</p>
-            <p class="card-text">Comments: {{ SubmitModel.comments }}</p>
-            <p class="card-text">Sire: {{ SubmitModel.sire }}</p>
-            <p class="card-text">Dam: {{ SubmitModel.dam }}</p>
-          </div>
-        </div>
-        <br/>
-      </div>
-    {% endfor %}
+    .sex {
+    display: none
+  }
+
+    .age {
+    display: none
+  }
+
+    .color {
+    display: none
+  }
+
+    .comments {
+    display: none
+  }
+
+    .sire {
+    display: none
+  }
+
+    .dam {
+    display: none
+  }
+
+    .pasture {
+    display: none
+  }
+
+    .owner {
+    display: none
+  }
+</style>
+
+
+
+  <div class="container">
+    <div class="row">
+      {% for SubmitModel in queryset %}
+
+          <form   method="POST" style="width: 20rem; padding: auto; ">
+          {% csrf_token %}
+            <div class="col-md-3 px-sm-3">
+              <div class="card" style="width: 20rem;">
+                <img src="/media/{{ SubmitModel.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+                <div class="card-body">
+
+                  <input class="tag" name="tagnum" value="{{ SubmitModel.tagnum }}">
+                  <h5 class="card-title" name="tagnum" style="font-family:Copperplate Gothic">Tag: {{ SubmitModel.tagnum }}</h5>
+
+                  <input class="sex" name="sex" value="{{ SubmitModel.sex }}">
+                  <p class="card-text" name="sex" style="font-family:Copperplate Gothic">Sex: {{ SubmitModel.sex }}</p>
+                  
+                  <input class="age" name="age" value="{{ SubmitModel.age }}">
+                  <p class="card-text" name="age" style="font-family:Copperplate Gothic">Age: {{ SubmitModel.age }}</p>
+
+                  <input class="color" name="color" value="{{ SubmitModel.color }}">
+                  <p class="card-text" name="color" style="font-family:Copperplate Gothic">Color: {{ SubmitModel.color }}</p>
+
+                  <input class="comments" name="comments" value="{{ SubmitModel.comments }}">
+                  <p class="card-text" name="comments" style="font-family:Copperplate Gothic">Comments: {{ SubmitModel.comments }}</p>
+
+                  <input class="sire" name="sire" value="{{ SubmitModel.sire }}">
+                  <p class="card-text" name="sire" style="font-family:Copperplate Gothic">Sire: {{ SubmitModel.sire }}</p>
+
+                  <input class="dam" name="dam" value="{{ SubmitModel.dam }}">
+                  <p class="card-text" name="dam" style="font-family:Copperplate Gothic">Dam: {{ SubmitModel.dam }}</p>
+
+                  <input class="pasture" name="pasture" value="{{ SubmitModel.pasture }}">
+                  <p class="card-text" name="pasture"  style="font-family:Copperplate Gothic">Pasture: {{ SubmitModel.pasture }}</p>
+
+                  <input class="owner" name="owner" value="{{ SubmitModel.owner }}">
+                  <p class="card-text"  name="owner"  style="font-family:Copperplate Gothic">Owner: {{ SubmitModel.owner }}</p>
+                  <button type="submit" class="btn-outline-danger" style="font-family:Copperplate Gothic">Delete</button> 
+                  <a target="_blank" class="btn btn-info pull-right" method="POST" href="{% url 'EditPost' %}">
+                    Edit
+                  </a>
+                </div>
+              </div>
+              <br/>
+            </div>
+          </form>
+
+      {% endfor %}
+    </div>
   </div>
-</div>
 
 
 {% endblock %}

@@ -12,4 +12,7 @@ urlpatterns = [
     path('calves/', views.calves, name='calves'),
     path('heifers/', views.heifers, name='heifers'),
     path('all/', views.all, name='all'),
+    path('HeadInPastures/', views.HeadInPastures, name='HeadInPastures'),
+    path('DeletePost/', views.DeletePost, name='DeletePost'),
+    path('EditPost/', views.EditPost, name='EditPost'),
 ]

@@ -9,5 +9,7 @@ class SubmitModel(models.Model):
 	comments=models.CharField(max_length=225, default=0)
 	sire=models.IntegerField(default=0)
 	dam=models.IntegerField(default=0)
+	owner=models.CharField(max_length=225)
+	pasture=models.CharField(max_length=225)
 	pic=models.FileField(null=True)
 	objects=models.Manager()

@@ -6,10 +6,12 @@ from home.models import SubmitModel
 # Create your views here.
 
 
+'''
+for editing just have them re enter the same tag and have it delete the old one
+'''
+
 def all(request):
 	qs = SubmitModel.objects.all()
-	fuck = SubmitModel.objects.all()
-	cows = fuck.filter(sex__icontains='Cow')
 
 	tagsearch = request.GET.get('tagsearch')
 
@@ -17,18 +19,54 @@ def all(request):
 		qs = qs.filter(tagnum__icontains=tagsearch)
 
 
-
 	context = {
 		'queryset': qs,
-		'cow': cows,
+
+ 
+
+	}
+	
+
+	return render(request, 'all.html', context)	
+
+def HeadInPastures(request):
+	qs = SubmitModel.objects.all()
+
+	BentonCounty = qs.filter(pasture__icontains='Benton County')
+	BentonCountyCount = len(BentonCounty)
+
+
+	FeedMill = qs.filter(pasture__icontains='Feed Mill')
+	FeedMillCount = len(FeedMill)
+
+	Maysville = qs.filter(pasture__icontains='Maysville')
+	MaysvilleCount = len(Maysville)
+
+	Caswell = qs.filter(pasture__icontains='Caswell')
+	CaswellCount = len(Caswell)
+
+	Obrian = qs.filter(pasture__icontains='Obrian')
+	ObrianCount = len(Obrian)
+
+	NoPlace = qs.filter(pasture__icontains='No Place')
+	NoPlaceCount = len(NoPlace)
+
+
+
+	context = {
+		'BC': BentonCountyCount,
+		'FM': FeedMillCount,
+		'MV': MaysvilleCount,
+		'CW': CaswellCount,
+		'OB': ObrianCount,
+		'NP': NoPlaceCount,
+
+
 
 
 	}
 	
-	print(qs)
-	return render(request, 'all.html', context)	
-
-
+	return render(request, 'HeadInPastures.html', context)	
 
 def home(request):
 	qs = SubmitModel.objects.all()
@@ -59,6 +97,48 @@ def search(request):
 	return render(request, 'search.html', {})
 
 
+def DeletePost(request):
+	if request.method != 'POST':
+		return HttpResponseRedirect(reverse("all"))	
+	else:
+		tagnum=request.POST.get("tagnum")
+		sex=request.POST.get("sex")
+		age=request.POST.get("age")
+		comments=request.POST.get("comments")
+		color=request.POST.get("color")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
+
+		print("shit")
+		setup1=SubmitModel.objects.filter(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture)
+		#setup1.delete()
+		return HttpResponseRedirect(reverse('all'))
+
+
+def EditPost(request):
+
+	if request.method != 'GET':
+		return HttpResponseRedirect(reverse("all"))	
+	else:
+		tagnum=request.POST.get("tagnum")
+		sex=request.POST.get("sex")
+		age=request.POST.get("age")
+		comments=request.POST.get("comments")
+		color=request.POST.get("color")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
+		print("FUCK YES")
+		
+
+		setup1=SubmitModel.objects.filter(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture)
+		#setup1.delete()
+		return HttpResponseRedirect(reverse('all'))
+
+
+
+
+
+
 
 
 
@@ -72,9 +152,11 @@ def SignUp_saveCows(request):
 		age=request.POST.get("age")
 		comments=request.POST.get("comments")
 		color=request.POST.get("color")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
 		pic = request.FILES['pic']
 
-		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, pic=pic)
+		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
 		setup1.save()
 		return HttpResponseRedirect(reverse('home'))
 
@@ -90,9 +172,11 @@ def SignUp_saveBulls(request):
 		age=request.POST.get("age")
 		comments=request.POST.get("comments")
 		color=request.POST.get("color")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
 		pic = request.FILES['pic']
 
-		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, pic=pic)
+		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
 		setup1.save()
 		return HttpResponseRedirect(reverse('bulls'))
 
@@ -111,9 +195,11 @@ def SignUp_saveCalves(request):
 		color=request.POST.get("color")
 		sire=request.POST.get("sire")
 		dam=request.POST.get("dam")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
 		pic = request.FILES['pic']
 
-		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, sire=sire, dam=dam, pic=pic)
+		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, sire=sire, dam=dam, owner=owner, pasture=pasture, pic=pic)
 		setup1.save()
 		return HttpResponseRedirect(reverse('calves'))
 
@@ -128,9 +214,11 @@ def SignUp_saveHeifers(request):
 		age=request.POST.get("age")
 		comments=request.POST.get("comments")
 		color=request.POST.get("color")
+		owner=request.POST.get("owner")
+		pasture=request.POST.get("pasture")
 		pic = request.FILES['pic']
 
-		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, pic=pic)
+		setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
 		setup1.save()
 		return HttpResponseRedirect(reverse('heifers'))
 
