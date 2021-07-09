@@ -50,34 +50,88 @@
   input[type=submit]:hover {
     background-color: #45a049;
   }
-
+ 
 </style>
 
+<style type="text/css">
+    .btn-outline-success {
+      display: none
+  }
+    .tag {
+      display: none
+  }
+
+    .sex {
+    display: none
+  }
+
+    .age {
+    display: none
+  }
+
+    .color {
+    display: none
+  }
+
+    .comments {
+    display: none
+  }
+
+    .sire {
+    display: none
+  }
+
+    .dam {
+    display: none
+  }
+
+    .pasture {
+    display: none
+  }
+
+    .owner {
+    display: none
+  }
+    .pic {
+      display: none
+    }
+</style>
+
+
+
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
   <form id="msform" action="{% url 'SignUp_saveCows' %}" enctype='multipart/form-data' method="post" class="form-inline">
     <div class="row">
       {% csrf_token %}
       <fieldset>
-        <label for="tagnum" style="font-family:Copperplate Gothic"><b>Tag Number</b></label>
+        <label for="tagnum" style="font-family:serif"><b>Tag Number</b></label>
         <input type="text" placeholder="Enter Tag number" name="tagnum" required>
 
-        <label for="sex" style="font-family:Copperplate Gothic"><b>Sex</b></label>
+        <label for="sex" style="font-family:serif"><b>Sex</b></label>
         <select id="sex" name="sex">
           <option value="Cow">Cow</option>
         </select>
 
-        <label for="Age" style="font-family:Copperplate Gothic"><b>Age</b></label>
+        <label for="Age" style="font-family:serif"><b>Age</b></label>
         <input type="text" name="age" required>
 
-        <label for="Color" style="font-family:Copperplate Gothic"><b>Color</b></label>
+        <label for="Color" style="font-family:serif"><b>Color</b></label>
         <input type="text" name="color">
 
-        <label for="owner" style="font-family:Copperplate Gothic"><b>Owner</b></label>
+        <label for="owner" style="font-family:serif"><b>Owner</b></label>
         <select id="owner" name="owner">
           <option value="Brad Amos">Brad Amos</option>
           <option value="David Jackson">David Jackson</option>
         </select>
 
-        <label for="pasture" style="font-family:Copperplate Gothic"><b>Pasture</b></label>
+        <label for="pasture" style="font-family:serif"><b>Pasture</b></label>
         <select id="pasture" name="pasture">
           <option value="Benton County">Benton County</option>
           <option value="Feed Mill">Feed Mill</option>
@@ -88,41 +142,191 @@
 
         </select>                
 
-        <label for="comments" style="font-family:Copperplate Gothic"><b>Comments</b></label>
+        <label for="comments" style="font-family:serif"><b>Comments</b></label>
         <input type="text" name="comments">
 
-        <label for="pic" style="font-family:Copperplate Gothic"><b>Image</b></label>
+        <label for="pic" style="font-family:serif"><b>Image</b></label>
         
         <input type="file" name="pic"  accept="image"/>
 
 
-        <button type="signup" class="btn" style="font-family:Copperplate Gothic">Submit</button>
+        <button type="signup" class="btn" style="font-family:serif">Submit</button>
       </fieldset>
     </div>
   </form>
 <br/>
 <hr/>
-<div class="container">
-  <div class="row">
-    {% for cows in cow %}
-      <div class="col-sm-4 px-sm-3">
-        <div class="card" style="width: 20rem;">
-          <img src="/media/{{ cows.pic }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title" style="font-family:Copperplate Gothic">Tag: {{ cows.tagnum }}</h5>
-            <p class="card-text" style="font-family:Copperplate Gothic">Sex: {{ cows.sex }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Age: {{ cows.age }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Color: {{ cows.color }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Comments: {{ cows.comments }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Pasture: {{ cows.pasture }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Owner: {{ cows.owner }}</p>
-          </div>
-        </div>
-        <br/>
-      </div>
-    {% endfor %}
-  </div>
-</div>
 
+<div class="container">
+    <div class="row">
+      {% for cows in cow %}
+
+          <form method="POST" action="{% url 'DeletePost' %}" style="width: 20rem; padding: auto; ">
+            {{form1.as_p}}
+          <form   method="POST" action="{% url 'EditPost' %}" style="width: 20rem; padding: auto; ">
+            {{form2.as_p}}
+          {% csrf_token %}
+            <div class="col-md-3 px-sm-3">
+              <div class="card" style="width: 20rem;">
+                <img name=image src="/media/{{ cows.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+                <div class="card-body">
+
+                  <input id="{{ cows.pic }}" class="pic" name="pic" value="{{ cows.pic }}">
+
+                  <input id="{{ cows.tagnum }}" class="tag" name="tagnum" value="{{ cows.tagnum }}">
+                  <h5 class="card-title" name="tagnum" style="font-family:serif">Tag: {{ cows.tagnum }}</h5>
+
+                  <input id="{{ cows.sex }}{{ cows.tagnum }}" class="sex" name="sex" value="{{ cows.sex }}">
+                  <p class="card-text" name="sex" style="font-family:serif">Sex: {{ cows.sex }}</p>
+                  
+                  <input id="{{ cows.age }}{{ cows.tagnum }}" class="age" name="age" value="{{ cows.age }}">
+                  <p class="card-text" name="age" style="font-family:serif">Age: {{ cows.age }}</p>
+
+                  <input id="{{ cows.color }}{{ cows.tagnum }}" class="color" name="color" value="{{ cows.color }}">
+                  <p class="card-text" name="color" style="font-family:serif">Color: {{ cows.color }}</p>
+
+                  <input id="{{ cows.comments }}{{ cows.tagnum }}" class="comments" name="comments" value="{{ cows.comments }}">
+                  <p class="card-text" name="comments" style="font-family:serif">Comments: {{ cows.comments }}</p>
+
+                  <input id="sire{{ cows.sire }}{{ cows.tagnum }}" class="sire" name="sire" value="{{ cows.sire }}">
+                  <p class="card-text" name="sire" style="font-family:serif">Sire: {{ cows.sire }}</p>
+
+                  <input id="dam{{ cows.dam }}{{ cows.tagnum }}" class="dam" name="dam" value="{{ cows.dam }}">
+                  <p class="card-text" name="dam" style="font-family:serif">Dam: {{ cows.dam }}</p>
+
+                  <input id="{{ cows.pasture }}{{ cows.tagnum }}" class="pasture" name="pasture" value="{{ cows.pasture }}">
+                  <p class="card-text" name="pasture"  style="font-family:serif">Pasture: {{ cows.pasture }}</p>
+
+                  <input id="{{ cows.owner }}{{ cows.tagnum }}" class="owner" name="owner" value="{{ cows.owner }}">
+                  <p class="card-text"  name="owner"  style="font-family:serif">Owner: {{ cows.owner }}</p>
+                  <button name="btnform1" type="submit"  class="btn-outline-danger" style="font-family:serif">Delete</button>
+                  <script type="text/javascript">
+
+
+                    function tagnum{{ cows.tagnum }}() {
+                      var tag{{ cows.tagnum }} = document.getElementById("{{ cows.tagnum }}");
+
+                      var submit = document.getElementById("Submit");
+
+
+                      tag{{ cows.tagnum }}.style.display = "block";
+                      Submit{{ cows.tagnum }}.style.display = "block";
+
+                      
+
+                      var sex{{ cows.sex }} = document.getElementById("{{ cows.sex }}{{ cows.tagnum }}");
+
+                      var age{{ cows.age }} = document.getElementById("{{ cows.age }}{{ cows.tagnum }}");
+
+                      var color{{ cows.color }} = document.getElementById("{{ cows.color }}{{ cows.tagnum }}");
+
+                      var comments{{ cows.comments }} = document.getElementById("{{ cows.comments }}{{ cows.tagnum }}");
+
+                      var sire{{ cows.sire }} = document.getElementById("sire{{ cows.sire }}{{ cows.tagnum }}");
+
+                      var dam{{ cows.dam }} = document.getElementById("dam{{ cows.dam }}{{ cows.tagnum }}");
+
+                      var pasture{{ cows.tagnum }} = document.getElementById("{{ cows.pasture }}{{ cows.tagnum }}");
+
+                      var owner{{ cows.tagnum }} = document.getElementById("{{ cows.owner }}{{ cows.tagnum }}");
+
+
+                      
+
+                     
+                      sex{{ cows.sex }}.style.display = "block";
+
+                      
+                      age{{ cows.age }}.style.display = "block";
+
+                     
+                      color{{ cows.color }}.style.display = "block";
+
+                     
+                      comments{{ cows.comments }}.style.display = "block";
+
+                      
+                      sire{{ cows.sire }}.style.display = "block";
+
+                      
+                      dam{{ cows.dam }}.style.display = "block";
+
+                      
+                      pasture{{ cows.tagnum }}.style.display = "block";
+
+                      
+                      owner{{ cows.tagnum }}.style.display = "block";
+
+
+                    }
+
+                    function submit{{ cows.tagnum }}() {
+                      
+                      var tag{{ cows.tagnum }} = document.getElementById("{{ cows.tagnum }}");
+
+                      var sex{{ cows.sex }} = document.getElementById("{{ cows.sex }}{{ cows.tagnum }}");
+
+                      var age{{ cows.age }} = document.getElementById("{{ cows.age }}{{ cows.tagnum }}");
+
+                      var color{{ cows.color }} = document.getElementById("{{ cows.color }}{{ cows.tagnum }}");
+
+                      var comments{{ cows.comments }} = document.getElementById("{{ cows.comments }}{{ cows.tagnum }}");
+
+                      var sire{{ cows.sire }} = document.getElementById("sire{{ cows.sire }}{{ cows.tagnum }}");
+
+                      var dam{{ cows.dam }} = document.getElementById("dam{{ cows.dam }}{{ cows.tagnum }}");
+
+                      var pasture{{ cows.tagnum }} = document.getElementById("{{ cows.pasture }}{{ cows.tagnum }}");
+
+                      var owner{{ cows.tagnum }} = document.getElementById("{{ cows.owner }}{{ cows.tagnum }}");
+
+                      var submit = document.getElementById("Submit{{ cows.tagnum }}");
+
+                      
+
+                      submit.style.display = "none";
+                      tag{{ cows.tagnum }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      sex{{ cows.sex }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      age{{ cows.age }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      color{{ cows.color }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      comments{{ cows.comments }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      sire{{ cows.sire }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      dam{{ cows.dam }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      pasture{{ cows.tagnum }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      owner{{ cows.tagnum }}.style.display = "none";
+
+
+                    }
+
+
+                  </script>
+                  <button type="button" name="btnform2" onclick="tagnum{{ cows.tagnum }}()" class="btn-outline-secondary" style="font-family:serif">Edit</button>
+
+                  <button name="btnform2" type="submit" id="Submit{{ cows.tagnum }}" onclick="submit{{cows.tagnum}}()" class="btn-outline-success" style="font-family:serif">Update</button>
+                </div>
+              </div>
+              <br/>
+            </div>
+          </form>
+
+      {% endfor %}
+    </div>
+  </div>
 
 {% endblock %}

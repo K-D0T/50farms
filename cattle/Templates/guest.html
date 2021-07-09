@@ -1,0 +1,113 @@
+
+{% extends 'baseguest.html' %}
+{% block content %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    
+  </head>
+  <body>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+
+<br/>
+<br/>
+<style type="text/css">
+  .tag {
+    display: none
+  }
+
+    .sex {
+    display: none
+  }
+
+    .age {
+    display: none
+  }
+
+    .color {
+    display: none
+  }
+
+    .comments {
+    display: none
+  }
+
+    .sire {
+    display: none
+  }
+
+    .dam {
+    display: none
+  }
+
+    .pasture {
+    display: none
+  }
+
+    .owner {
+    display: none
+  }
+</style>
+
+
+
+  <div class="container">
+    <div class="row">
+      {% for SubmitModel in queryset %}
+
+          <form   method="POST" style="width: 20rem; padding: auto; ">
+          {% csrf_token %}
+            <div class="col-md-3 px-sm-3">
+              <div class="card" style="width: 20rem;">
+                <img src="/media/{{ SubmitModel.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+                <div class="card-body">
+
+                  <input class="tag" name="tagnum" value="{{ SubmitModel.tagnum }}">
+                  <h5 class="card-title" name="tagnum" style="font-family:serif">Tag: {{ SubmitModel.tagnum }}</h5>
+
+                  <input class="sex" name="sex" value="{{ SubmitModel.sex }}">
+                  <p class="card-text" name="sex" style="font-family:serif">Sex: {{ SubmitModel.sex }}</p>
+                  
+                  <input class="age" name="age" value="{{ SubmitModel.age }}">
+                  <p class="card-text" name="age" style="font-family:serif">Age: {{ SubmitModel.age }}</p>
+
+                  <input class="color" name="color" value="{{ SubmitModel.color }}">
+                  <p class="card-text" name="color" style="font-family:serif">Color: {{ SubmitModel.color }}</p>
+
+                  <input class="comments" name="comments" value="{{ SubmitModel.comments }}">
+                  <p class="card-text" name="comments" style="font-family:serif">Comments: {{ SubmitModel.comments }}</p>
+
+                  <input class="sire" name="sire" value="{{ SubmitModel.sire }}">
+                  <p class="card-text" name="sire" style="font-family:serif">Sire: {{ SubmitModel.sire }}</p>
+
+                  <input class="dam" name="dam" value="{{ SubmitModel.dam }}">
+                  <p class="card-text" name="dam" style="font-family:serif">Dam: {{ SubmitModel.dam }}</p>
+
+                  <input class="pasture" name="pasture" value="{{ SubmitModel.pasture }}">
+                  <p class="card-text" name="pasture"  style="font-family:serif">Pasture: {{ SubmitModel.pasture }}</p>
+
+                  <input class="owner" name="owner" value="{{ SubmitModel.owner }}">
+                  <p class="card-text"  name="owner"  style="font-family:serif">Owner: {{ SubmitModel.owner }}</p>
+
+                
+                </div>
+              </div>
+              <br/>
+            </div>
+          </form>
+
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

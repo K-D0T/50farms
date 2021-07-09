@@ -1,0 +1,49 @@
+{% extends 'baseguest.html' %}
+
+{% block content %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Cattle Works</title>
+  </head>
+  <body>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+
+
+<br/>
+
+<div class="container">
+  <div class="row">
+    {% for bulls in bull %}
+      <div class="col-sm-4 px-sm-3">
+        <div class="card" style="width: 20rem;">
+          <img src="/media/{{ bulls.pic }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title" style="font-family:serif">Tag: {{ bulls.tagnum }}</h5>
+            <p class="card-text" style="font-family:serif">Sex: {{ bulls.sex }}</p>
+            <p class="card-text" style="font-family:serif">Age: {{ bulls.age }}</p>
+            <p class="card-text" style="font-family:serif">Color: {{ bulls.color }}</p>            
+            <p class="card-text" style="font-family:serif">Comments: {{ bulls.comments }}</p>
+            <p class="card-text" style="font-family:serif">Pasture: {{ bulls.pasture }}</p>
+            <p class="card-text" style="font-family:serif">Owner: {{ bulls.owner }}</p>
+          </div>
+        </div>
+        <br/>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}

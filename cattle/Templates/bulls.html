@@ -51,30 +51,81 @@
   }
 </style>
 
+<style type="text/css">
+    .btn-outline-success {
+      display: none
+  }
+    .tag {
+      display: none
+  }
+
+    .sex {
+    display: none
+  }
+
+    .age {
+    display: none
+  }
+
+    .color {
+    display: none
+  }
+
+    .comments {
+    display: none
+  }
+
+    .sire {
+    display: none
+  }
+
+    .dam {
+    display: none
+  }
+
+    .pasture {
+    display: none
+  }
+
+    .owner {
+    display: none
+  }
+    .pic {
+      display: none
+    }
+</style>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
   <form id="msform" action="{% url 'SignUp_saveBulls' %}" enctype='multipart/form-data' method="post" class="form-inline">
     {% csrf_token %}
     <fieldset>
-      <label for="tagnum" style="font-family:Copperplate Gothic"><b>Tag Number</b></label>
+      <label for="tagnum" style="font-family:serif"><b>Tag Number</b></label>
       <input type="text" placeholder="Enter Tag number" name="tagnum" required>
 
-      <label for="sex" style="font-family:Copperplate Gothic"><b>Sex</b></label>
+      <label for="sex" style="font-family:serif"><b>Sex</b></label>
       <select id="sex" name="sex">
-        <option value="Bull" style="font-family:Copperplate Gothic">Bull</option>
+        <option value="Bull" style="font-family:serif">Bull</option>
       </select>
 
-      <label for="Age" style="font-family:Copperplate Gothic"><b>Age</b></label>
+      <label for="Age" style="font-family:serif"><b>Age</b></label>
       <input type="text" name="age" required>
 
-      <label for="Color" style="font-family:Copperplate Gothic"><b>Color</b></label>
+      <label for="Color" style="font-family:serif"><b>Color</b></label>
       <input type="text" name="color">
 
-      <label for="owner" style="font-family:Copperplate Gothic"><b>Owner</b></label>
+      <label for="owner" style="font-family:serif"><b>Owner</b></label>
       <select id="owner" name="owner">
         <option value="Brad Amos">Brad Amos</option>
         <option value="David Jackson">David Jackson</option>
       </select>
 
-      <label for="pasture" style="font-family:Copperplate Gothic"><b>Pasture</b></label>
+      <label for="pasture" style="font-family:serif"><b>Pasture</b></label>
       <select id="pasture" name="pasture">
         <option value="Benton County">Benton County</option>
         <option value="Feed Mill">Feed Mill</option>
@@ -85,40 +136,190 @@
 
       </select>  
 
-      <label for="comments" style="font-family:Copperplate Gothic"><b>Comments</b></label>
+      <label for="comments" style="font-family:serif"><b>Comments</b></label>
       <input type="text" name="comments">
 
-      <label for="pic" style="font-family:Copperplate Gothic"><b>Image</b></label>
+      <label for="pic" style="font-family:serif"><b>Image</b></label>
       
       <input type="file" name="pic"  accept="image/png"/>
 
 
-      <button type="signup" class="btn" style="font-family:Copperplate Gothic">Submit</button>
+      <button type="signup" class="btn" style="font-family:serif">Submit</button>
     </fieldset>
   </form>
 <br/>
 <hr/>
 <div class="container">
-  <div class="row">
-    {% for bulls in bull %}
-      <div class="col-sm-4 px-sm-3">
-        <div class="card" style="width: 20rem;">
-          <img src="/media/{{ bulls.pic }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title" style="font-family:Copperplate Gothic">Tag: {{ bulls.tagnum }}</h5>
-            <p class="card-text" style="font-family:Copperplate Gothic">Sex: {{ bulls.sex }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Age: {{ bulls.age }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Color: {{ bulls.color }}</p>            
-            <p class="card-text" style="font-family:Copperplate Gothic">Comments: {{ bulls.comments }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Pasture: {{ bulls.pasture }}</p>
-            <p class="card-text" style="font-family:Copperplate Gothic">Owner: {{ bulls.owner }}</p>
-          </div>
-        </div>
-        <br/>
-      </div>
-    {% endfor %}
+    <div class="row">
+      {% for bulls in bull %}
+
+          <form method="POST" action="{% url 'DeletePost' %}" style="width: 20rem; padding: auto; ">
+            {{form1.as_p}}
+          <form   method="POST" action="{% url 'EditPost' %}" style="width: 20rem; padding: auto; ">
+            {{form2.as_p}}
+          {% csrf_token %}
+            <div class="col-md-3 px-sm-3">
+              <div class="card" style="width: 20rem;">
+                <img name=image src="/media/{{ bulls.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+                <div class="card-body">
+
+                  <input id="{{ bulls.pic }}" class="pic" name="pic" value="{{ bulls.pic }}">
+
+                  <input id="{{ bulls.tagnum }}" class="tag" name="tagnum" value="{{ bulls.tagnum }}">
+                  <h5 class="card-title" name="tagnum" style="font-family:serif">Tag: {{ bulls.tagnum }}</h5>
+
+                  <input id="{{ bulls.sex }}{{ bulls.tagnum }}" class="sex" name="sex" value="{{ bulls.sex }}">
+                  <p class="card-text" name="sex" style="font-family:serif">Sex: {{ bulls.sex }}</p>
+                  
+                  <input id="{{ bulls.age }}{{ bulls.tagnum }}" class="age" name="age" value="{{ bulls.age }}">
+                  <p class="card-text" name="age" style="font-family:serif">Age: {{ bulls.age }}</p>
+
+                  <input id="{{ bulls.color }}{{ bulls.tagnum }}" class="color" name="color" value="{{ bulls.color }}">
+                  <p class="card-text" name="color" style="font-family:serif">Color: {{ bulls.color }}</p>
+
+                  <input id="{{ bulls.comments }}{{ bulls.tagnum }}" class="comments" name="comments" value="{{ bulls.comments }}">
+                  <p class="card-text" name="comments" style="font-family:serif">Comments: {{ bulls.comments }}</p>
+
+                  <input id="sire{{ bulls.sire }}{{ bulls.tagnum }}" class="sire" name="sire" value="{{ bulls.sire }}">
+                  <p class="card-text" name="sire" style="font-family:serif">Sire: {{ bulls.sire }}</p>
+
+                  <input id="dam{{ bulls.dam }}{{ bulls.tagnum }}" class="dam" name="dam" value="{{ bulls.dam }}">
+                  <p class="card-text" name="dam" style="font-family:serif">Dam: {{ bulls.dam }}</p>
+
+                  <input id="{{ bulls.pasture }}{{ bulls.tagnum }}" class="pasture" name="pasture" value="{{ bulls.pasture }}">
+                  <p class="card-text" name="pasture"  style="font-family:serif">Pasture: {{ bulls.pasture }}</p>
+
+                  <input id="{{ bulls.owner }}{{ bulls.tagnum }}" class="owner" name="owner" value="{{ bulls.owner }}">
+                  <p class="card-text"  name="owner"  style="font-family:serif">Owner: {{ bulls.owner }}</p>
+                  <button name="btnform1" type="submit"  class="btn-outline-danger" style="font-family:serif">Delete</button>
+                  <script type="text/javascript">
+
+
+                    function tagnum{{ bulls.tagnum }}() {
+                      var tag{{ bulls.tagnum }} = document.getElementById("{{ bulls.tagnum }}");
+
+                      var submit = document.getElementById("Submit");
+
+
+                      tag{{ bulls.tagnum }}.style.display = "block";
+                      Submit{{ bulls.tagnum }}.style.display = "block";
+
+                      
+
+                      var sex{{ bulls.sex }} = document.getElementById("{{ bulls.sex }}{{ bulls.tagnum }}");
+
+                      var age{{ bulls.age }} = document.getElementById("{{ bulls.age }}{{ bulls.tagnum }}");
+
+                      var color{{ bulls.color }} = document.getElementById("{{ bulls.color }}{{ bulls.tagnum }}");
+
+                      var comments{{ bulls.comments }} = document.getElementById("{{ bulls.comments }}{{ bulls.tagnum }}");
+
+                      var sire{{ bulls.sire }} = document.getElementById("sire{{ bulls.sire }}{{ bulls.tagnum }}");
+
+                      var dam{{ bulls.dam }} = document.getElementById("dam{{ bulls.dam }}{{ bulls.tagnum }}");
+
+                      var pasture{{ bulls.tagnum }} = document.getElementById("{{ bulls.pasture }}{{ bulls.tagnum }}");
+
+                      var owner{{ bulls.tagnum }} = document.getElementById("{{ bulls.owner }}{{ bulls.tagnum }}");
+
+
+                      
+
+                     
+                      sex{{ bulls.sex }}.style.display = "block";
+
+                      
+                      age{{ bulls.age }}.style.display = "block";
+
+                     
+                      color{{ bulls.color }}.style.display = "block";
+
+                     
+                      comments{{ bulls.comments }}.style.display = "block";
+
+                      
+                      sire{{ bulls.sire }}.style.display = "block";
+
+                      
+                      dam{{ bulls.dam }}.style.display = "block";
+
+                      
+                      pasture{{ bulls.tagnum }}.style.display = "block";
+
+                      
+                      owner{{ bulls.tagnum }}.style.display = "block";
+
+
+                    }
+
+                    function submit{{ bulls.tagnum }}() {
+                      
+                      var tag{{ bulls.tagnum }} = document.getElementById("{{ bulls.tagnum }}");
+
+                      var sex{{ bulls.sex }} = document.getElementById("{{ bulls.sex }}{{ bulls.tagnum }}");
+
+                      var age{{ bulls.age }} = document.getElementById("{{ bulls.age }}{{ bulls.tagnum }}");
+
+                      var color{{ bulls.color }} = document.getElementById("{{ bulls.color }}{{ bulls.tagnum }}");
+
+                      var comments{{ bulls.comments }} = document.getElementById("{{ bulls.comments }}{{ bulls.tagnum }}");
+
+                      var sire{{ bulls.sire }} = document.getElementById("sire{{ bulls.sire }}{{ bulls.tagnum }}");
+
+                      var dam{{ bulls.dam }} = document.getElementById("dam{{ bulls.dam }}{{ bulls.tagnum }}");
+
+                      var pasture{{ bulls.tagnum }} = document.getElementById("{{ bulls.pasture }}{{ bulls.tagnum }}");
+
+                      var owner{{ bulls.tagnum }} = document.getElementById("{{ bulls.owner }}{{ bulls.tagnum }}");
+
+                      var submit = document.getElementById("Submit{{ bulls.tagnum }}");
+
+                      
+
+                      submit.style.display = "none";
+                      tag{{ bulls.tagnum }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      sex{{ bulls.sex }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      age{{ bulls.age }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      color{{ bulls.color }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      comments{{ bulls.comments }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      sire{{ bulls.sire }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      dam{{ bulls.dam }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      pasture{{ bulls.tagnum }}.style.display = "none";
+
+                      submit.style.display = "none";
+                      owner{{ bulls.tagnum }}.style.display = "none";
+
+
+                    }
+
+
+                  </script>
+                  <button type="button" name="btnform2" onclick="tagnum{{ bulls.tagnum }}()" class="btn-outline-secondary" style="font-family:serif">Edit</button>
+
+                  <button name="btnform2" type="submit" id="Submit{{ bulls.tagnum }}" onclick="submit{{bulls.tagnum}}()" class="btn-outline-success" style="font-family:serif">Update</button>
+                </div>
+              </div>
+              <br/>
+            </div>
+          </form>
+
+      {% endfor %}
+    </div>
   </div>
-</div>
 
 
 {% endblock %}

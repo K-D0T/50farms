@@ -15,4 +15,12 @@ urlpatterns = [
     path('HeadInPastures/', views.HeadInPastures, name='HeadInPastures'),
     path('DeletePost/', views.DeletePost, name='DeletePost'),
     path('EditPost/', views.EditPost, name='EditPost'),
+    path('logout/', views.logout_request, name='logout'),
+    path('login/', views.login_request, name='login'),
+    path('', views.guest, name='guest'),
+    path('cowsguest/', views.cowsguest, name='cowsguest'),
+    path('bullsguest/', views.bullsguest, name='bullsguest'),
+    path('calvesguest/', views.calvesguest, name='calvesguest'),
+    path('heifersguest/', views.heifersguest, name='heifersguest'),
+
 ]

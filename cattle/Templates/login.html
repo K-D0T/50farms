@@ -1,0 +1,110 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+
+<style>
+
+	body {
+	    font-family: "Lato", sans-serif;
+	    background-image: url('/media/File_004.jpeg');
+	    height: 100%;
+
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+
+	}
+
+
+	.main-head{
+	    height: 150px;
+	    image-rendering: url('/media/50gatefarmslogo-1-removebg-preview.png')
+
+	    
+	   
+	}
+
+
+	.pic {
+		height: 25%;
+		width: 30%;
+		margin-left: 37%;
+	}
+
+	.main {
+	    margin: auto;
+
+
+	}
+
+
+	@media screen and (max-width: 450px) {
+	    .login-form{
+	        margin-top: 10%;
+	    }
+
+	    .register-form{
+	        margin-top: 10%;
+	    }
+	}
+
+	@media screen and (min-width: 768px){
+	    .main{
+	        margin-left: 40%; 
+	    }
+
+
+
+	    .login-form{
+	        margin-top: 10%;
+	    }
+
+	    .register-form{
+	        margin-top: 10%;
+	    }
+	}
+
+
+	.login-main-text{
+	    margin-top: 10%;
+	    padding: 60px;
+	    color: #fff;
+	}
+
+	.login-main-text h2{
+	    font-weight: 300;
+	}
+
+	.btn-black{
+	    background-color: #000 !important;
+	    color: #fff;
+	}
+</style>
+
+
+<img src="/media/50gatefarmslogo-1-removebg-preview.png" class="pic">
+
+
+<div class="main">
+ <div class="col-md-5 col-sm-12">
+    <div class="login-form">
+       <form method="POST">
+       {% csrf_token %}
+
+          <div class="form-group">
+             <label>Username</label>
+             <input type="text" name="username" class="form-control" placeholder="User Name">
+          </div>
+          <div class="form-group">
+             <label>Password</label>
+             <input type="password" name="password" class="form-control" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-black">Login</button>
+          <a href="/" class="btn btn-secondary">Continue as Guest</a>
+       </form>
+    </div>
+ </div>
+</div>
