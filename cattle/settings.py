@@ -55,7 +55,7 @@ ROOT_URLCONF = 'cattle.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r'C:/Users/Kaiden Thrailkill/Desktop/Environment/cattle/cattle/Templates'],
+        'DIRS': [r'/home/kdot/Environment/50farms/cattle/Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

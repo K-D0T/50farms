@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from .forms import MainForm
 import os
 
 #password: BradAmos2020
@@ -227,26 +228,24 @@ def HeadInPastures(request):
 
 def home(request):
 	if request.user.is_authenticated:
-		qs = SubmitModel.objects.all()
-		fuck = SubmitModel.objects.all()
-		cows = fuck.filter(sex__icontains='Cow')
+		form = MainForm(request.GET)
+		
 
-		tagsearch = request.GET.get('tagsearch')
+		
+		#qs = SubmitModel.objects.all()
+		#fuck = SubmitModel.objects.all()
+		#cows = fuck.filter(sex__icontains='Cow')
 
-		if tagsearch != '' and tagsearch is not None:
-			qs = qs.filter(tagnum__icontains=tagsearch)
+		#tagsearch = request.GET.get('tagsearch')
 
-
-
-		context = {
-			'queryset': qs,
-			'cow': cows,
+		#if tagsearch != '' and tagsearch is not None:
+			#qs = qs.filter(tagnum__icontains=tagsearch)
 
 
-		}
 
 
-		return render(request, 'home.html', context)
+
+		return render(request, 'home.html', {'form': form})
 
 
 
@@ -280,7 +279,7 @@ def DeletePost(request):
 			values = setup3[0]
 
 			pic_name = values.get("pic")
-			os.remove("/Users/Kaiden Thrailkill/desktop/environment/cattle/cattle/media/" + pic_name)
+			os.remove("/home/kdot/Environment/50farms/cattle/media/" + pic_name)
 
 			setup1.delete()
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -334,10 +333,18 @@ def EditPost(request):
 
 
 def SignUp_saveCows(request):
+	
 	if request.user.is_authenticated:
+		
+
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("home"))
 		else:
+			form = MainForm(request.GET)
+			
+			if form is valid:
+				form.save()
+			'''
 			tagnum=request.POST.get("tagnum")
 			sex=request.POST.get("sex")
 			age=request.POST.get("age")
@@ -345,11 +352,13 @@ def SignUp_saveCows(request):
 			color=request.POST.get("color")
 			owner=request.POST.get("owner")
 			pasture=request.POST.get("pasture")
+			'''
 			try:
 			    pic = request.FILES['pic']
 			except:
 			    pic = '50gatefarmslogo-1-removebg-preview.png'
 
+			'''
 			qs = SubmitModel.objects.all()
 			qs = qs.filter(tagnum__icontains=tagnum)
 
@@ -359,6 +368,7 @@ def SignUp_saveCows(request):
 				setup1.save()
 			if len(qs) >= 1:
 				messages.error(request, 'That Tag Number Is Already In Use')
+			'''
 			return HttpResponseRedirect(reverse('home'))
 
 
@@ -399,6 +409,7 @@ def SignUp_saveCalves(request):
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("calves"))
 		else:
+			'''
 			tagnum=request.POST.get("tagnum")
 			sex=request.POST.get("sex")
 			age=request.POST.get("age")
@@ -413,6 +424,8 @@ def SignUp_saveCalves(request):
 			qs = SubmitModel.objects.all()
 			qs = qs.filter(tagnum__icontains=tagnum)
 
+			'''
+			
 
 			if len(qs) < 1:
 				setup1=SubmitModel(tagnum=tagnum, sex=sex, sire=sire, dam=dam, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
