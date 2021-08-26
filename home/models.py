@@ -31,5 +31,5 @@ class SubmitModel(models.Model):
 	dam=models.SlugField(default=0)
 	owner=models.ForeignKey(OWNER, on_delete=models.PROTECT, null=True)
 	pasture=models.ForeignKey(PASTURE, on_delete=models.PROTECT, null=True)
-	pic=models.FileField(null=True)
+	pic=models.ImageField(upload_to='media', height_field=None, width_field=None, max_length=100, null=True)
 	objects=models.Manager()

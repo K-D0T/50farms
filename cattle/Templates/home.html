@@ -107,7 +107,7 @@
     {% endfor %}
   </ul>
 {% endif %}
-  <form id="MainForm" enctype='multipart/form-data' method="post">
+  <form id="MainForm" action="{% url 'SignUp_saveCows' %}" enctype='multipart/form-data' method="post">
     <div class="row">
       {% csrf_token %}
 
@@ -116,11 +116,7 @@
 
         <label for="{{ form.sex.id_for_label }}" style="font-family:serif"><b>Sex</b></label>
         {{ form.sex }}
-        <!--
-        <select id="sex" name="sex">
-          <option value="Cow">Cow</option>
-        </select>
-        -->
+        
 
         <label for="{{ form.age.id_for_label }}" style="font-family:serif"><b>Age</b></label>
         {{ form.age }}
@@ -131,26 +127,11 @@
 
         <label for="{{ form.owner.id_for_label}}" style="font-family:serif"><b>Owner</b></label>
         {{ form.owner }}
-        <!--
-        <select id="owner" name="owner">
-          <option value="Brad Amos">Brad Amos</option>
-          <option value="David Jackson">David Jackson</option>
-        </select>
-        -->
+        
 
         <label for="{{ form.pasture.id_for_label }}" style="font-family:serif"><b>Pasture</b></label>
         {{ form.pasture }}
-        <!--
-        <select id="pasture" name="pasture">
-          <option value="Benton County">Benton County</option>
-          <option value="Feed Mill">Feed Mill</option>
-          <option value="Maysville">Maysville</option>
-          <option value="Caswell">Caswell</option>
-          <option value="Obrian">Obrian</option>
-          <option value="No Place">No Place</option>
-
-        </select>                
-        -->
+        
         
         <label for="{{ form.comments.id_for_label}}" style="font-family:serif"><b>Comments</b></label>
         {{ form.comments }}

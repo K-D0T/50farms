@@ -336,23 +336,18 @@ def SignUp_saveCows(request):
 	
 	if request.user.is_authenticated:
 		
-
+		
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("home"))
 		else:
-			form = MainForm(request.GET)
+			form = MainForm(request.POST, request.FILES)
 			
-			if form is valid:
+			if form.is_valid():
 				form.save()
-			'''
-			tagnum=request.POST.get("tagnum")
-			sex=request.POST.get("sex")
-			age=request.POST.get("age")
-			comments=request.POST.get("comments")
-			color=request.POST.get("color")
-			owner=request.POST.get("owner")
-			pasture=request.POST.get("pasture")
-			'''
+
+			else:
+				print("Form is invalid")
+			
 			try:
 			    pic = request.FILES['pic']
 			except:
