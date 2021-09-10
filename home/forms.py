@@ -22,5 +22,11 @@ class MainForm(forms.ModelForm):
 		for i in self.fields:
 
 			self.fields[i].widget.attrs['class'] = 'form-control'
+		
+		self.fields['sire'].required = False
+		self.fields['dam'].required = False
+		self.fields['sex'].required = False
+		
+		
 
 

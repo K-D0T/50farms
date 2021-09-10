@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from .forms import MainForm
 import os
+from django.shortcuts import render, get_object_or_404, redirect
 
 #password: BradAmos2020
 
@@ -228,9 +229,13 @@ def HeadInPastures(request):
 
 def home(request):
 	if request.user.is_authenticated:
-		form = MainForm(request.GET)
-		
-
+		form = MainForm(request.POST, request.FILES)
+		try:
+			pic = request.POST['tagnum']
+			print(form.errors)
+			
+		except:
+			pic = '50gatefarmslogo-1-removebg-preview.png'
 		
 		#qs = SubmitModel.objects.all()
 		#fuck = SubmitModel.objects.all()
@@ -314,6 +319,9 @@ def DeletePost(request):
 
 def EditPost(request):
 
+	form = form = MainForm(request.POST, request.FILES)
+	return render(request, 'edit.html', {'form': form})
+'''
 	if request.method != 'POST':
 		return HttpResponseRedirect(reverse("all"))
 
@@ -330,40 +338,33 @@ def EditPost(request):
 		setup1=SubmitModel.objects.filter(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture)
 		setup1.commit()
 		return HttpResponseRedirect(reverse('all'))
+'''
+	
 
 
 def SignUp_saveCows(request):
+
 	
 	if request.user.is_authenticated:
-		
-		
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("home"))
+		
 		else:
 			form = MainForm(request.POST, request.FILES)
 			
 			if form.is_valid():
-				form.save()
-
+				post = form.save(commit=False)
+				post.author = request.user
+				post.save()
+				return redirect('edit', id=post.id)
 			else:
 				print("Form is invalid")
-			
+
 			try:
-			    pic = request.FILES['pic']
+				pic = request.FILES['pic']
 			except:
 			    pic = '50gatefarmslogo-1-removebg-preview.png'
 
-			'''
-			qs = SubmitModel.objects.all()
-			qs = qs.filter(tagnum__icontains=tagnum)
-
-
-			if len(qs) < 1:
-				setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
-				setup1.save()
-			if len(qs) >= 1:
-				messages.error(request, 'That Tag Number Is Already In Use')
-			'''
 			return HttpResponseRedirect(reverse('home'))
 
 
