@@ -22,11 +22,37 @@ class MainForm(forms.ModelForm):
 		for i in self.fields:
 
 			self.fields[i].widget.attrs['class'] = 'form-control'
+			self.fields[i].widget.attrs['style'] = 'width:40%'
 		
 		self.fields['sire'].required = False
 		self.fields['dam'].required = False
 		self.fields['sex'].required = False
+
+class EditForm(forms.ModelForm):
+
+
+	class Meta:
+		model = SubmitModel
+		fields = '__all__'
+
+		widgets = {
+			'pic': FileInput(attrs={'image': 'image'})
+
+		}
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		for i in self.fields:
+
+			self.fields[i].widget.attrs['class'] = 'form-control'
+
 		
-		
+		self.fields['sire'].required = False
+		self.fields['dam'].required = False
+		self.fields['sex'].required = False
+	
+
+				
 
 

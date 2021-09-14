@@ -2,12 +2,12 @@ from django.shortcuts import render
 import requests
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from home.models import SubmitModel
+from home.models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from .forms import MainForm
+from .forms import *
 import os
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -230,27 +230,22 @@ def HeadInPastures(request):
 def home(request):
 	if request.user.is_authenticated:
 		form = MainForm(request.POST, request.FILES)
+		data = list(SubmitModel.objects.values())
 		try:
-			pic = request.POST['tagnum']
-			print(form.errors)
-			
+			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+			owner_id = owner_id[0]['owner_id']
+
+			pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+			pasture_id = pasture_id[0]['pasture_id']
+
+			owner = list(OWNER.objects.filter(id=owner_id).values())
+			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+			data = list(SubmitModel.objects.values())
+
+
+			return render(request, 'home.html', {'form': form, 'data': data, 'owner': owner, 'pasture': pasture})
 		except:
-			pic = '50gatefarmslogo-1-removebg-preview.png'
-		
-		#qs = SubmitModel.objects.all()
-		#fuck = SubmitModel.objects.all()
-		#cows = fuck.filter(sex__icontains='Cow')
-
-		#tagsearch = request.GET.get('tagsearch')
-
-		#if tagsearch != '' and tagsearch is not None:
-			#qs = qs.filter(tagnum__icontains=tagsearch)
-
-
-
-
-
-		return render(request, 'home.html', {'form': form})
+			return render(request, 'home.html', {'form': form, 'data': data})
 
 
 
@@ -317,57 +312,57 @@ def DeletePost(request):
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def EditPost(request):
+def EditPost(request, id):
 
-	form = form = MainForm(request.POST, request.FILES)
-	return render(request, 'edit.html', {'form': form})
-'''
-	if request.method != 'POST':
-		return HttpResponseRedirect(reverse("all"))
+	if request.user.is_authenticated:
+		data = list(SubmitModel.objects.filter(pk=id).values())
 
-	if request.method=='POST' and 'btnform2' in request.POST:
-		tagnum=request.POST.get("tagnum")
-		sex=request.POST.get("sex")
-		age=request.POST.get("age")
-		comments=request.POST.get("comments")
-		color=request.POST.get("color")
-		owner=request.POST.get("owner")
-		pasture=request.POST.get("pasture")
-		print("edit")
+		owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+		owner_id = owner_id[0]['owner_id']
 
-		setup1=SubmitModel.objects.filter(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture)
-		setup1.commit()
-		return HttpResponseRedirect(reverse('all'))
-'''
+		pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+		pasture_id = pasture_id[0]['pasture_id']
+
+		owner = list(OWNER.objects.filter(id=owner_id).values())
+		pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+
+		if request.method != 'POST':
+			editform = EditForm(request.POST, request.FILES)
+			return render(request, 'edit.html', {'editform': editform, 'data': data, 'owner': owner, 'pasture': pasture})
+		else:
+			a = SubmitModel.objects.get(pk=id)
+			editform = EditForm(request.POST, request.FILES, instance=a)
+			
+			
+			if editform.is_valid():
+				post = editform.save(commit=False)
+				post.author = request.user
+				post.save()
+				return HttpResponseRedirect(reverse("home"))
+			else:
+				print(editform.errors)
+				print("form is invalid")
+				return render(request, 'edit.html', {'editform': editform, 'data': data, 'owner': owner, 'pasture': pasture})
+
+			
 	
 
 
 def SignUp_saveCows(request):
 
-	
 	if request.user.is_authenticated:
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("home"))
-		
 		else:
 			form = MainForm(request.POST, request.FILES)
-			
 			if form.is_valid():
 				post = form.save(commit=False)
 				post.author = request.user
 				post.save()
-				return redirect('edit', id=post.id)
+				return HttpResponseRedirect(reverse('home'))
 			else:
 				print("Form is invalid")
-
-			try:
-				pic = request.FILES['pic']
-			except:
-			    pic = '50gatefarmslogo-1-removebg-preview.png'
-
-			return HttpResponseRedirect(reverse('home'))
-
-
+				return HttpResponseRedirect(reverse('home'))
 
 
 def SignUp_saveBulls(request):
