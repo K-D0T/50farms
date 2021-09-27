@@ -164,28 +164,27 @@ def logout_request(request):
 	logout(request)
 
 
-
-
-
 def all(request):
 	if request.user.is_authenticated:
-		qs = SubmitModel.objects.all()
+		form = MainForm(request.POST, request.FILES)
+		data = list(SubmitModel.objects.values())
+		
+		try:
+			
+			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+			owner_id = owner_id[0]['owner_id']
 
-		tagsearch = request.GET.get('tagsearch')
+			pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+			pasture_id = pasture_id[0]['pasture_id']
 
-		if tagsearch != '' and tagsearch is not None:
-			qs = qs.filter(tagnum__icontains=tagsearch)
-
-
-		context = {
-			'queryset': qs,
+			owner = list(OWNER.objects.filter(id=owner_id).values())
+			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+			data = list(SubmitModel.objects.values())
 
 
-
-		}
-
-
-		return render(request, 'all.html', context)
+			return render(request, 'all.html', {'form': form, 'data': data, 'owner': owner, 'pasture': pasture})
+		except:
+			return render(request, 'all.html', {'form': form, 'data': data})
 
 def HeadInPastures(request):
 	if request.user.is_authenticated:
@@ -231,7 +230,14 @@ def home(request):
 	if request.user.is_authenticated:
 		form = MainForm(request.POST, request.FILES)
 		data = list(SubmitModel.objects.values())
+		dlist = []
+		for i in data:
+			if i['sex_id'] == 2:
+				dlist.append(i)
+
+		
 		try:
+
 			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
 			owner_id = owner_id[0]['owner_id']
 
@@ -241,11 +247,14 @@ def home(request):
 			owner = list(OWNER.objects.filter(id=owner_id).values())
 			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
 			data = list(SubmitModel.objects.values())
+			dlist = []
+			for i in data:
+				if i['sex_id'] == 2:
+					dlist.append(i)
 
-
-			return render(request, 'home.html', {'form': form, 'data': data, 'owner': owner, 'pasture': pasture})
+			return render(request, 'home.html', {'form': form, 'data': dlist, 'owner': owner, 'pasture': pasture})
 		except:
-			return render(request, 'home.html', {'form': form, 'data': data})
+			return render(request, 'home.html', {'form': form, 'data': dlist})
 
 
 
@@ -333,7 +342,6 @@ def EditPost(request, id):
 			a = SubmitModel.objects.get(pk=id)
 			editform = EditForm(request.POST, request.FILES, instance=a)
 			
-			
 			if editform.is_valid():
 				post = editform.save(commit=False)
 				post.author = request.user
@@ -355,6 +363,7 @@ def SignUp_saveCows(request):
 			return HttpResponseRedirect(reverse("home"))
 		else:
 			form = MainForm(request.POST, request.FILES)
+			print(form['sire'])
 			if form.is_valid():
 				post = form.save(commit=False)
 				post.author = request.user
@@ -370,25 +379,15 @@ def SignUp_saveBulls(request):
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("bulls"))
 		else:
-			tagnum=request.POST.get("tagnum")
-			sex=request.POST.get("sex")
-			age=request.POST.get("age")
-			comments=request.POST.get("comments")
-			color=request.POST.get("color")
-			owner=request.POST.get("owner")
-			pasture=request.POST.get("pasture")
-			pic = request.FILES['pic']
-
-			qs = SubmitModel.objects.all()
-			qs = qs.filter(tagnum__icontains=tagnum)
-
-
-			if len(qs) < 1:
-				setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
-				setup1.save()
-			if len(qs) >= 1:
-				messages.error(request, 'That Tag Number Is Already In Use')
-			return HttpResponseRedirect(reverse('bulls'))
+			form = MainForm(request.POST, request.FILES)
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.author = request.user
+				post.save()
+				return HttpResponseRedirect(reverse('bulls'))
+			else:
+				print("Form is invalid")
+				return HttpResponseRedirect(reverse('bulls'))
 
 
 
@@ -396,34 +395,18 @@ def SignUp_saveBulls(request):
 
 def SignUp_saveCalves(request):
 	if request.user.is_authenticated:
-
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("calves"))
 		else:
-			'''
-			tagnum=request.POST.get("tagnum")
-			sex=request.POST.get("sex")
-			age=request.POST.get("age")
-			comments=request.POST.get("comments")
-			color=request.POST.get("color")
-			sire=request.POST.get("sire")
-			dam=request.POST.get("dam")
-			owner=request.POST.get("owner")
-			pasture=request.POST.get("pasture")
-			pic = request.FILES['pic']
-
-			qs = SubmitModel.objects.all()
-			qs = qs.filter(tagnum__icontains=tagnum)
-
-			'''
-			
-
-			if len(qs) < 1:
-				setup1=SubmitModel(tagnum=tagnum, sex=sex, sire=sire, dam=dam, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
-				setup1.save()
-			if len(qs) >= 1:
-				messages.error(request, 'That Tag Number Is Already In Use')
-			return HttpResponseRedirect(reverse('calves'))
+			form = MainForm(request.POST, request.FILES)
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.author = request.user
+				post.save()
+				return HttpResponseRedirect(reverse('calves'))
+			else:
+				print("Form is invalid")
+				return HttpResponseRedirect(reverse('calves'))
 
 
 
@@ -432,25 +415,15 @@ def SignUp_saveHeifers(request):
 		if request.method != 'POST':
 			return HttpResponseRedirect(reverse("heifers"))
 		else:
-			tagnum=request.POST.get("tagnum")
-			sex=request.POST.get("sex")
-			age=request.POST.get("age")
-			comments=request.POST.get("comments")
-			color=request.POST.get("color")
-			owner=request.POST.get("owner")
-			pasture=request.POST.get("pasture")
-			pic = request.FILES['pic']
-
-			qs = SubmitModel.objects.all()
-			qs = qs.filter(tagnum__icontains=tagnum)
-
-
-			if len(qs) < 1:
-				setup1=SubmitModel(tagnum=tagnum, sex=sex, age=age, comments=comments, color=color, owner=owner, pasture=pasture, pic=pic)
-				setup1.save()
-			if len(qs) >= 1:
-				messages.error(request, 'That Tag Number Is Already In Use')
-			return HttpResponseRedirect(reverse('heifers'))
+			form = MainForm(request.POST, request.FILES)
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.author = request.user
+				post.save()
+				return HttpResponseRedirect(reverse('heifers'))
+			else:
+				print("Form is invalid")
+				return HttpResponseRedirect(reverse('heifers'))
 
 
 
@@ -458,20 +431,33 @@ def SignUp_saveHeifers(request):
 
 def bulls(request):
 	if request.user.is_authenticated:
-		qs = SubmitModel.objects.all()
-		tagsearch = request.GET.get('tagsearch')
-		fuck = SubmitModel.objects.all()
-		if tagsearch != '' and tagsearch is not None:
-			tagnum = qs.filter(tagnum__icontains=tagsearch)
+		form = MainForm(request.POST, request.FILES)
+		data = list(SubmitModel.objects.values())
+		dlist = []
+		for i in data:
+			if i['sex_id'] == 3:
+				dlist.append(i)
 
+		try:
+			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+			owner_id = owner_id[0]['owner_id']
 
-		bulls = fuck.filter(sex__icontains='Bull')
-		context = {
-			'queryset': qs,
-			'bull': bulls,
-		}
+			pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+			pasture_id = pasture_id[0]['pasture_id']
+			
+			owner = list(OWNER.objects.filter(id=owner_id).values())
+			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+			data = list(SubmitModel.objects.values())
+			dlist = []
+			for i in data:
+				if i['sex_id'] == 3:
+					dlist.append(i)
+				
+			
 
-		return render(request, 'bulls.html', context)
+			return render(request, 'bulls.html', {'form': form, 'data': dlist, 'owner': owner, 'pasture': pasture})
+		except:
+			return render(request, 'bulls.html', {'form': form, 'data': dlist})
 
 
 
@@ -481,23 +467,33 @@ def bulls(request):
 
 def calves(request):
 	if request.user.is_authenticated:
-		qs = SubmitModel.objects.all()
-		tagsearch = request.GET.get('tagsearch')
-		fuck = SubmitModel.objects.all()
-		if tagsearch != '' and tagsearch is not None:
-			qs = qs.filter(tagnum__icontains=tagsearch)
+		form = MainForm(request.POST, request.FILES)
+		data = list(SubmitModel.objects.values())
+		dlist = []
+		for i in data:
+			if i['sex_id'] == 0 or 1:
+				dlist.append(i)
 
+		
+		try:
 
-		calves = fuck.filter(sex__icontains='Calf')
+			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+			owner_id = owner_id[0]['owner_id']
 
-		context = {
-			'queryset': qs,
-			'calf': calves,
+			pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+			pasture_id = pasture_id[0]['pasture_id']
 
-		}
+			owner = list(OWNER.objects.filter(id=owner_id).values())
+			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+			data = list(SubmitModel.objects.values())
+			dlist = []
+			for i in data:
+				if i['sex_id'] == 0 or 1:
+					dlist.append(i)
 
-		return render(request, 'calves.html', context)
-
+			return render(request, 'calves.html', {'form': form, 'data': dlist, 'owner': owner, 'pasture': pasture})
+		except:
+			return render(request, 'calves.html', {'form': form, 'data': dlist})
 
 
 
@@ -506,16 +502,30 @@ def calves(request):
 
 def heifers(request):
 	if request.user.is_authenticated:
-		qs = SubmitModel.objects.all()
-		tagsearch = request.GET.get('tagsearch')
-		fuck = SubmitModel.objects.all()
-		if tagsearch != '' and tagsearch is not None:
-			qs = qs.filter(tagnum__icontains=tagsearch)
+		form = MainForm(request.POST, request.FILES)
+		data = list(SubmitModel.objects.values())
+		dlist = []
+		for i in data:
+			if i['sex_id'] == 4:
+				dlist.append(i)
 
-		heifers = fuck.filter(sex__icontains='Heifer')
-		context = {
-			'queryset': qs,
-			'heifer': heifers,
-		}
+		
+		try:
 
-		return render(request, 'heifers.html', context)
+			owner_id = list(SubmitModel.objects.filter(pk=id).values('owner_id'))
+			owner_id = owner_id[0]['owner_id']
+
+			pasture_id = list(SubmitModel.objects.filter(pk=id).values('pasture_id'))
+			pasture_id = pasture_id[0]['pasture_id']
+
+			owner = list(OWNER.objects.filter(id=owner_id).values())
+			pasture = list(PASTURE.objects.filter(id=pasture_id).values())
+			data = list(SubmitModel.objects.values())
+			dlist = []
+			for i in data:
+				if i['sex_id'] == 4:
+					dlist.append(i)
+
+			return render(request, 'heifers.html', {'form': form, 'data': dlist, 'owner': owner, 'pasture': pasture})
+		except:
+			return render(request, 'heifers.html', {'form': form, 'data': dlist})

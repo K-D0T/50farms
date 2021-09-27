@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
- 
+
 {% block content %}
 <!doctype html>
 <html lang="en">
@@ -22,6 +22,7 @@
 
 <br/>
 <br/>
+
 <style type="text/css">
     input[type=text], select {
     width: 100%;
@@ -35,67 +36,27 @@
 
 /* Style the submit button */
     .btn {
-    width: 10%;
+    width: 300px;
     background-color: #198754;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
 
+  label {
+  display: inline;
+  width: 140px;
+  text-align: right;
+}​
+
 /* Add a background color to the submit button on mouse-over */
   input[type=submit]:hover {
     background-color: #45a049;
   }
+ 
 </style>
-
-
-<style type="text/css">
-    .btn-outline-success {
-      display: none
-  }
-    .tag {
-      display: none
-  }
-
-    .sex {
-    display: none
-  }
-
-    .age {
-    display: none
-  }
-
-    .color {
-    display: none
-  }
-
-    .comments {
-    display: none
-  }
-
-    .sire {
-    display: none
-  }
-
-    .dam {
-    display: none
-  }
-
-    .pasture {
-    display: none
-  }
-
-    .owner {
-    display: none
-  }
-    .pic {
-      display: none
-    }
-</style>
-
 
 
 {% if messages %}
@@ -105,233 +66,82 @@
     {% endfor %}
   </ul>
 {% endif %}
-  <form id="msform" action="{% url 'SignUp_saveCalves' %}" enctype='multipart/form-data' method="post" class="form-inline">
-    {% csrf_token %}
-    <fieldset>
-      <label for="tagnum" style="font-family:serif"><b>Tag Number</b></label>
-      <input type="text" placeholder="Enter Tag number" name="tagnum" required>
+  <form id="MainForm" action="{% url 'SignUp_saveCalves' %}" enctype='multipart/form-data' method="post">
+    <div class="d-flex flex-wrap">
+      {% csrf_token %}
+        <label class="p-3" for="{{ form.tagnum.id_for_label }}" style="font-family:serif"><b>Tag Number</b></label>
+        {{ form.tagnum }}
+        <label class="p-3" for="{{ form.sire.id_for_label }}" style="font-family:serif"><b>Sire</b></label>
+        {{ form.sire }}
+        <label class="p-3" for="{{ form.dam.id_for_label }}" style="font-family:serif"><b>Dam</b></label>
+        {{ form.dam }}
+        <label class="p-3" for="{{ form.sex.id_for_label }}" style="font-family:serif"><b>Sex</b></label>
+        {{ form.sex }}
+        <label class="p-3" for="{{ form.age.id_for_label }}" style="font-family:serif"><b>Age</b></label>
+        {{ form.age }}
+        <label class="p-3" for="{{ form.color.id_for_label}}" style="font-family:serif"><b>Color</b></label>
+        {{ form.color }}
+        <label class="p-3" for="{{ form.owner.id_for_label}}" style="font-family:serif"><b>Owner</b></label>
+        {{ form.owner }}
+        <label class="p-3" for="{{ form.pasture.id_for_label }}" style="font-family:serif"><b>Pasture</b></label>
+        {{ form.pasture }}
+        <label class="p-3" for="{{ form.comments.id_for_label}}" style="font-family:serif"><b>Comments</b></label>
+        {{ form.comments }}
+        <label class="p-3" for="{{ form.pic.id_for_label }}" style="font-family:serif"><b>Image</b></label>
+        {{ form.pic }}
+        <button type="signup" class="btn mx-auto m-3" style="font-family:serif">Submit</button>
 
-      <label for="sex" style="font-family:serif"><b>Sex</b></label>
-      <select id="sex" name="sex" style="font-family:serif">
-        <option value="Male Calf" style="font-family:serif">Male Calf</option>
-        <option value="Female Calf" style="font-family:serif">Female Calf</option>
-      </select>
+    </div>
 
-      <label for="sire" style="font-family:serif"><b>Sire Tag Number</b></label>
-      <input type="text" name="sire" required>
-
-      <label for="dam" style="font-family:serif"><b>Dam Tag Number</b></label>
-      <input type="text" name="dam" required>
-
-      <label for="Age" style="font-family:serif"><b>Age</b></label>
-      <input type="text" name="age" required>
-
-      <label for="Color" style="font-family:serif"><b>Color</b></label>
-      <input type="text" name="color">
-
-      <label for="owner" style="font-family:serif"><b>Owner</b></label>
-      <select id="owner" name="owner">
-        <option value="Brad Amos">Brad Amos</option>
-        <option value="David Jackson">David Jackson</option>
-      </select>
-
-      <label for="pasture" style="font-family:serif"><b>Pasture</b></label>
-      <select id="pasture" name="pasture">
-        <option value="Benton County">Benton County</option>
-        <option value="Feed Mill">Feed Mill</option>
-        <option value="Maysville">Maysville</option>
-        <option value="Caswell">Caswell</option>
-        <option value="Obrian">Obrian</option>
-        <option value="No Place">No Place</option>
-
-      </select>  
-
-
-      <label for="comments" style="font-family:serif"><b>Comments</b></label>
-      <input type="text" name="comments">
-
-      <label for="pic" style="font-family:serif"><b>Image</b></label>
-      
-      <input type="file" name="pic"  accept="image/png"/>
-
-
-      <button type="signup" class="btn" style="font-family:serif">Submit</button>
-    </fieldset>
   </form>
+ 
+<div class="d-flex flex-wrap flex-row justify-content-center">  
+  {% for x in data %} 
+
+    <form action="/EditPost/{{x.id}}/">
+      <div class="p-3">
+        <div class="card" style="width: 20rem;">
+          <img src="/media/{{x.pic}}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Tag Number: {{x.tagnum}}</h5>
+            <h5 class="card-title">Age: {{x.age}}</h5>
+            <h5 class="card-title">Color: {{x.color}}</h5>
+
+            {% if x.owner_id == 1 %}
+              <h5 class="card-title">Owner: David Jackson</h5>
+            {% endif %}
+            {% if x.owner_id == 0 %}
+              <h5 class="card-title">Owner: Brad Amos</h5>
+            {% endif %}
+            
+            {% if x.pasture_id == 1 %}
+              <h5 class="card-title">Pasture: Benton County</h5>
+            {% endif %}
+            {% if x.pasture_id == 2 %}
+              <h5 class="card-title">Pasture: Feed Mill</h5>
+            {% endif %}
+            {% if x.pasture_id == 3 %}
+              <h5 class="card-title">Pasture: Maysville</h5>
+            {% endif %}
+            {% if x.pasture_id == 4 %}
+              <h5 class="card-title">Pasture: Caswell</h5>
+            {% endif %}
+            {% if x.pasture_id == 5 %}
+              <h5 class="card-title">Pasture: Obrian</h5>
+            {% endif %}
+            {% if x.pasture_id == 6 %}
+              <h5 class="card-title">Pasture: No Place</h5>
+            {% endif %}
+            <h5 class="card-title">Comments: {{x.comments}}</h5>
+            <button type="signup" class="editbtn" style="font-family:serif">Edit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  {% endfor %} 
+</div>
 <br/>
 <hr/>
-<div class="container">
-    <div class="row">
-      {% for calves in calf %}
-
-          <form method="POST" action="{% url 'DeletePost' %}" style="width: 20rem; padding: auto; ">
-            {{form1.as_p}}
-          <form   method="POST" action="{% url 'EditPost' %}" style="width: 20rem; padding: auto; ">
-            {{form2.as_p}}
-          {% csrf_token %}
-            <div class="col-md-3 px-sm-3">
-              <div class="card" style="width: 20rem;">
-                <img name=image src="/media/{{ calves.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
-                <div class="card-body">
-
-                  <input id="{{ calves.pic }}" class="pic" name="pic" value="{{ calves.pic }}">
-
-                  <input id="{{ calves.tagnum }}" class="tag" name="tagnum" value="{{ calves.tagnum }}">
-                  <h5 class="card-title" name="tagnum" style="font-family:serif">Tag: {{ calves.tagnum }}</h5>
-
-                  <input id="{{ calves.sex }}{{ calves.tagnum }}" class="sex" name="sex" value="{{ calves.sex }}">
-                  <p class="card-text" name="sex" style="font-family:serif">Sex: {{ calves.sex }}</p>
-                  
-                  <input id="{{ calves.age }}{{ calves.tagnum }}" class="age" name="age" value="{{ calves.age }}">
-                  <p class="card-text" name="age" style="font-family:serif">Age: {{ calves.age }}</p>
-
-                  <input id="{{ calves.color }}{{ calves.tagnum }}" class="color" name="color" value="{{ calves.color }}">
-                  <p class="card-text" name="color" style="font-family:serif">Color: {{ calves.color }}</p>
-
-                  <input id="{{ calves.comments }}{{ calves.tagnum }}" class="comments" name="comments" value="{{ calves.comments }}">
-                  <p class="card-text" name="comments" style="font-family:serif">Comments: {{ calves.comments }}</p>
-
-                  <input id="sire{{ calves.sire }}{{ calves.tagnum }}" class="sire" name="sire" value="{{ calves.sire }}">
-                  <p class="card-text" name="sire" style="font-family:serif">Sire: {{ calves.sire }}</p>
-
-                  <input id="dam{{ calves.dam }}{{ calves.tagnum }}" class="dam" name="dam" value="{{ calves.dam }}">
-                  <p class="card-text" name="dam" style="font-family:serif">Dam: {{ calves.dam }}</p>
-
-                  <input id="{{ calves.pasture }}{{ calves.tagnum }}" class="pasture" name="pasture" value="{{ calves.pasture }}">
-                  <p class="card-text" name="pasture"  style="font-family:serif">Pasture: {{ calves.pasture }}</p>
-
-                  <input id="{{ calves.owner }}{{ calves.tagnum }}" class="owner" name="owner" value="{{ calves.owner }}">
-                  <p class="card-text"  name="owner"  style="font-family:serif">Owner: {{ calves.owner }}</p>
-                  <button name="btnform1" type="submit"  class="btn-outline-danger" style="font-family:serif">Delete</button>
-                  <script type="text/javascript">
-
-
-                    function tagnum{{ calves.tagnum }}() {
-                      var tag{{ calves.tagnum }} = document.getElementById("{{ calves.tagnum }}");
-
-                      var submit = document.getElementById("Submit");
-
-
-                      tag{{ calves.tagnum }}.style.display = "block";
-                      Submit{{ calves.tagnum }}.style.display = "block";
-
-                      
-
-                      var sex{{ calves.tagnum }} = document.getElementById("{{ calves.sex }}{{ calves.tagnum }}");
-
-                      var age{{ calves.age }} = document.getElementById("{{ calves.age }}{{ calves.tagnum }}");
-
-                      var color{{ calves.color }} = document.getElementById("{{ calves.color }}{{ calves.tagnum }}");
-
-                      var comments{{ calves.comments }} = document.getElementById("{{ calves.comments }}{{ calves.tagnum }}");
-
-                      var sire{{ calves.sire }} = document.getElementById("sire{{ calves.sire }}{{ calves.tagnum }}");
-
-                      var dam{{ calves.dam }} = document.getElementById("dam{{ calves.dam }}{{ calves.tagnum }}");
-
-                      var pasture{{ calves.tagnum }} = document.getElementById("{{ calves.pasture }}{{ calves.tagnum }}");
-
-                      var owner{{ calves.tagnum }} = document.getElementById("{{ calves.owner }}{{ calves.tagnum }}");
-
-
-                      
-
-                     
-                      sex{{ calves.tagnum }}.style.display = "block";
-
-                      
-                      age{{ calves.age }}.style.display = "block";
-
-                     
-                      color{{ calves.color }}.style.display = "block";
-
-                     
-                      comments{{ calves.comments }}.style.display = "block";
-
-                      
-                      sire{{ calves.sire }}.style.display = "block";
-
-                      
-                      dam{{ calves.dam }}.style.display = "block";
-
-                      
-                      pasture{{ calves.tagnum }}.style.display = "block";
-
-                      
-                      owner{{ calves.tagnum }}.style.display = "block";
-
-
-                    }
-
-                    function submit{{ calves.tagnum }}() {
-                      
-                      var tag{{ calves.tagnum }} = document.getElementById("{{ calves.tagnum }}");
-
-                      var sex{{ calves.tagnum }} = document.getElementById("{{ calves.sex }}{{ calves.tagnum }}");
-
-                      var age{{ calves.age }} = document.getElementById("{{ calves.age }}{{ calves.tagnum }}");
-
-                      var color{{ calves.color }} = document.getElementById("{{ calves.color }}{{ calves.tagnum }}");
-
-                      var comments{{ calves.comments }} = document.getElementById("{{ calves.comments }}{{ calves.tagnum }}");
-
-                      var sire{{ calves.sire }} = document.getElementById("sire{{ calves.sire }}{{ calves.tagnum }}");
-
-                      var dam{{ calves.dam }} = document.getElementById("dam{{ calves.dam }}{{ calves.tagnum }}");
-
-                      var pasture{{ calves.tagnum }} = document.getElementById("{{ calves.pasture }}{{ calves.tagnum }}");
-
-                      var owner{{ calves.tagnum }} = document.getElementById("{{ calves.owner }}{{ calves.tagnum }}");
-
-                      var submit = document.getElementById("Submit{{ calves.tagnum }}");
-
-                      
-
-                      submit.style.display = "none";
-                      tag{{ calves.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      sex{{ calves.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      age{{ calves.age }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      color{{ calves.color }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      comments{{ calves.comments }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      sire{{ calves.sire }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      dam{{ calves.dam }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      pasture{{ calves.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      owner{{ calves.tagnum }}.style.display = "none";
-
-
-                    }
-
-
-                  </script>
-                  <button type="button" name="btnform2" onclick="tagnum{{ calves.tagnum }}()" class="btn-outline-secondary" style="font-family:serif">Edit</button>
-
-                  <button name="btnform2" type="submit" id="Submit{{ calves.tagnum }}" onclick="submit{{calves.tagnum}}()" class="btn-outline-success" style="font-family:serif">Update</button>
-                </div>
-              </div>
-              <br/>
-            </div>
-          </form>
-
-      {% endfor %}
-    </div>
-  </div>
-
-
 
 {% endblock %}

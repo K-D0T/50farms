@@ -71,10 +71,11 @@
       {% csrf_token %}
         <label class="p-3" for="{{ form.tagnum.id_for_label }}" style="font-family:serif"><b>Tag Number</b></label>
         {{ form.tagnum }}
+        
         <!--
         <label for="{{ form.sex.id_for_label }}" value="Cow" style="font-family:serif"><b>Sex</b></label>
         -->
-        <input class="p-3" for="{{ form.sex.id_for_label }}" value="2" hidden=True/>
+        <input class="p-3" name="sex" for="{{ form.sex.id_for_label }}" value="2" hidden=True/>
         <label class="p-3" for="{{ form.age.id_for_label }}" style="font-family:serif"><b>Age</b></label>
         {{ form.age }}
         <label class="p-3" for="{{ form.color.id_for_label}}" style="font-family:serif"><b>Color</b></label>
@@ -94,29 +95,49 @@
   </form>
  
 <div class="d-flex flex-wrap flex-row justify-content-center">  
-  {% for x in data %}
-    {% for x in data %}
-      {% for o in owner %}
-        {% for p in pasture %}
-          <form action="/EditPost/{{x.id}}/">
-            <div class="p-3">
-              <div class="card" style="width: 20rem;">
-                <img src="/media/{{x.pic}}" style="width:318px;height:211px;" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Tag Number: {{x.tagnum}}</h5>
-                  <h5 class="card-title">Age: {{x.age}}</h5>
-                  <h5 class="card-title">Color: {{x.color}}</h5>
-                  <h5 class="card-title">Owner: {{x.owner_id}}</h5>
-                  <h5 class="card-title">Pasture: {{x.pasture_id}}</h5>
-                  <h5 class="card-title">Comments: {{x.comments}}</h5>
-                  <button type="signup" class="editbtn" style="font-family:serif">Edit</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        {% endfor %}
-      {% endfor %}
-    {% endfor %}
+  {% for x in data %} 
+
+    <form action="/EditPost/{{x.id}}/">
+      <div class="p-3">
+        <div class="card" style="width: 20rem;">
+          <img src="/media/{{x.pic}}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Tag Number: {{x.tagnum}}</h5>
+            <h5 class="card-title">Age: {{x.age}}</h5>
+            <h5 class="card-title">Color: {{x.color}}</h5>
+
+            {% if x.owner_id == 1 %}
+              <h5 class="card-title">Owner: David Jackson</h5>
+            {% endif %}
+            {% if x.owner_id == 0 %}
+              <h5 class="card-title">Owner: Brad Amos</h5>
+            {% endif %}
+            <h5 class="card-title">Sex: Cow</h5>
+            {% if x.pasture_id == 1 %}
+              <h5 class="card-title">Pasture: Benton County</h5>
+            {% endif %}
+            {% if x.pasture_id == 2 %}
+              <h5 class="card-title">Pasture: Feed Mill</h5>
+            {% endif %}
+            {% if x.pasture_id == 3 %}
+              <h5 class="card-title">Pasture: Maysville</h5>
+            {% endif %}
+            {% if x.pasture_id == 4 %}
+              <h5 class="card-title">Pasture: Caswell</h5>
+            {% endif %}
+            {% if x.pasture_id == 5 %}
+              <h5 class="card-title">Pasture: Obrian</h5>
+            {% endif %}
+            {% if x.pasture_id == 6 %}
+              <h5 class="card-title">Pasture: No Place</h5>
+            {% endif %}
+            <h5 class="card-title">Comments: {{x.comments}}</h5>
+            <button type="signup" class="editbtn" style="font-family:serif">Edit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
   {% endfor %} 
 </div>
 <br/>

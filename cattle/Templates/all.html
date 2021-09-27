@@ -22,222 +22,68 @@
 
 <br/>
 <br/>
-<style type="text/css">
-    .btn-outline-success {
-      display: none
-  }
-    .tag {
-      display: none
-  }
-
-    .sex {
-    display: none
-  }
-
-    .age {
-    display: none
-  }
-
-    .color {
-    display: none
-  }
-
-    .comments {
-    display: none
-  }
-
-    .sire {
-    display: none
-  }
-
-    .dam {
-    display: none
-  }
-
-    .pasture {
-    display: none
-  }
-
-    .owner {
-    display: none
-  }
-    .pic {
-      display: none
-    }
-</style>
-
- 
-  <div class="container">
-    <div class="row">
-      {% for SubmitModel in queryset %}
-
-          <form method="POST" action="{% url 'DeletePost' %}" style="width: 20rem; padding: auto; ">
-            {{form1.as_p}}
-          <form   method="POST" action="{% url 'EditPost' %}" style="width: 20rem; padding: auto; ">
-            {{form2.as_p}}
-          {% csrf_token %}
-            <div class="col-md-3 px-sm-3">
-              <div class="card" style="width: 20rem;">
-                <img name=image src="/media/{{ SubmitModel.pic }}" style="width:318px;height:211px;" class="card-img-top" alt="...">
-                <div class="card-body">
-
-                  <input id="{{ SubmitModel.pic }}" class="pic" name="pic" value="{{ SubmitModel.pic }}">
-
-                  <input id="{{ SubmitModel.tagnum }}" class="tag" name="tagnum" value="{{ SubmitModel.tagnum }}">
-                  <h5 class="card-title" name="tagnum" style="font-family:serif">Tag: {{ SubmitModel.tagnum }}</h5>
-
-                  <input id="{{ SubmitModel.sex }}{{ SubmitModel.tagnum }}" class="sex" name="sex" value="{{ SubmitModel.sex }}">
-                  <p class="card-text" name="sex" style="font-family:serif">Sex: {{ SubmitModel.sex }}</p>
-                  
-                  <input id="{{ SubmitModel.age }}{{ SubmitModel.tagnum }}" class="age" name="age" value="{{ SubmitModel.age }}">
-                  <p class="card-text" name="age" style="font-family:serif">Age: {{ SubmitModel.age }}</p>
-
-                  <input id="{{ SubmitModel.color }}{{ SubmitModel.tagnum }}" class="color" name="color" value="{{ SubmitModel.color }}">
-                  <p class="card-text" name="color" style="font-family:serif">Color: {{ SubmitModel.color }}</p>
-
-                  <input id="{{ SubmitModel.comments }}{{ SubmitModel.tagnum }}" class="comments" name="comments" value="{{ SubmitModel.comments }}">
-                  <p class="card-text" name="comments" style="font-family:serif">Comments: {{ SubmitModel.comments }}</p>
-
-                  <input id="sire{{ SubmitModel.sire }}{{ SubmitModel.tagnum }}" class="sire" name="sire" value="{{ SubmitModel.sire }}">
-                  <p class="card-text" name="sire" style="font-family:serif">Sire: {{ SubmitModel.sire }}</p>
-
-                  <input id="dam{{ SubmitModel.dam }}{{ SubmitModel.tagnum }}" class="dam" name="dam" value="{{ SubmitModel.dam }}">
-                  <p class="card-text" name="dam" style="font-family:serif">Dam: {{ SubmitModel.dam }}</p>
-
-                  <input id="{{ SubmitModel.pasture }}{{ SubmitModel.tagnum }}" class="pasture" name="pasture" value="{{ SubmitModel.pasture }}">
-                  <p class="card-text" name="pasture"  style="font-family:serif">Pasture: {{ SubmitModel.pasture }}</p>
-
-                  <input id="{{ SubmitModel.owner }}{{ SubmitModel.tagnum }}" class="owner" name="owner" value="{{ SubmitModel.owner }}">
-                  <p class="card-text"  name="owner"  style="font-family:serif">Owner: {{ SubmitModel.owner }}</p>
-                  <button name="btnform1" type="submit"  class="btn-outline-danger" style="font-family:serif">Delete</button>
-                  <script type="text/javascript">
-
-
-                    function tagnum{{ SubmitModel.tagnum }}() {
-                      var tag{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.tagnum }}");
-
-                      var submit = document.getElementById("Submit");
-
-
-                      tag{{ SubmitModel.tagnum }}.style.display = "block";
-                      Submit{{ SubmitModel.tagnum }}.style.display = "block";
-
-                      
-
-                      var sex{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.sex }}{{ SubmitModel.tagnum }}");
-
-                      var age{{ SubmitModel.age }} = document.getElementById("{{ SubmitModel.age }}{{ SubmitModel.tagnum }}");
-
-                      var color{{ SubmitModel.color }} = document.getElementById("{{ SubmitModel.color }}{{ SubmitModel.tagnum }}");
-
-                      var comments{{ SubmitModel.comments }} = document.getElementById("{{ SubmitModel.comments }}{{ SubmitModel.tagnum }}");
-
-                      var sire{{ SubmitModel.sire }} = document.getElementById("sire{{ SubmitModel.sire }}{{ SubmitModel.tagnum }}");
-
-                      var dam{{ SubmitModel.dam }} = document.getElementById("dam{{ SubmitModel.dam }}{{ SubmitModel.tagnum }}");
-
-                      var pasture{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.pasture }}{{ SubmitModel.tagnum }}");
-
-                      var owner{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.owner }}{{ SubmitModel.tagnum }}");
-
-
-                      
-
-                     
-                      sex{{ SubmitModel.tagnum }}.style.display = "block";
-
-                      
-                      age{{ SubmitModel.age }}.style.display = "block";
-
-                     
-                      color{{ SubmitModel.color }}.style.display = "block";
-
-                     
-                      comments{{ SubmitModel.comments }}.style.display = "block";
-
-                      
-                      sire{{ SubmitModel.sire }}.style.display = "block";
-
-                      
-                      dam{{ SubmitModel.dam }}.style.display = "block";
-
-                      
-                      pasture{{ SubmitModel.tagnum }}.style.display = "block";
-
-                      
-                      owner{{ SubmitModel.tagnum }}.style.display = "block";
-
-
-                    }
-
-                    function submit{{ SubmitModel.tagnum }}() {
-                      
-                      var tag{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.tagnum }}");
-
-                      var sex{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.sex }}{{ SubmitModel.tagnum }}");
-
-                      var age{{ SubmitModel.age }} = document.getElementById("{{ SubmitModel.age }}{{ SubmitModel.tagnum }}");
-
-                      var color{{ SubmitModel.color }} = document.getElementById("{{ SubmitModel.color }}{{ SubmitModel.tagnum }}");
-
-                      var comments{{ SubmitModel.comments }} = document.getElementById("{{ SubmitModel.comments }}{{ SubmitModel.tagnum }}");
-
-                      var sire{{ SubmitModel.sire }} = document.getElementById("sire{{ SubmitModel.sire }}{{ SubmitModel.tagnum }}");
-
-                      var dam{{ SubmitModel.dam }} = document.getElementById("dam{{ SubmitModel.dam }}{{ SubmitModel.tagnum }}");
-
-                      var pasture{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.pasture }}{{ SubmitModel.tagnum }}");
-
-                      var owner{{ SubmitModel.tagnum }} = document.getElementById("{{ SubmitModel.owner }}{{ SubmitModel.tagnum }}");
-
-                      var submit = document.getElementById("Submit{{ SubmitModel.tagnum }}");
-
-                      
-
-                      submit.style.display = "none";
-                      tag{{ SubmitModel.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      sex{{ SubmitModel.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      age{{ SubmitModel.age }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      color{{ SubmitModel.color }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      comments{{ SubmitModel.comments }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      sire{{ SubmitModel.sire }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      dam{{ SubmitModel.dam }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      pasture{{ SubmitModel.tagnum }}.style.display = "none";
-
-                      submit.style.display = "none";
-                      owner{{ SubmitModel.tagnum }}.style.display = "none";
-
-
-                    }
-
-
-                  </script>
-                  <button type="button" name="btnform2" onclick="tagnum{{ SubmitModel.tagnum }}()" class="btn-outline-secondary" style="font-family:serif">Edit</button>
-
-                  <button name="btnform2" type="submit" id="Submit{{ SubmitModel.tagnum }}" onclick="submit{{SubmitModel.tagnum}}()" class="btn-outline-success" style="font-family:serif">Update</button>
-                </div>
-              </div>
-              <br/>
-            </div>
-          </form>
-
-      {% endfor %}
-    </div>
-  </div>
+<div class="d-flex flex-wrap flex-row justify-content-center">  
+  {% for x in data %}
+
+    <form action="/EditPost/{{x.id}}/">
+      <div class="p-3">
+        <div class="card" style="width: 20rem;">
+          <img src="/media/{{x.pic}}" style="width:318px;height:211px;" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Tag Number: {{x.tagnum}}</h5>
+            <h5 class="card-title">Age: {{x.age}}</h5>
+            <h5 class="card-title">Color: {{x.color}}</h5>
+
+            {% if x.owner_id == 1 %}
+              <h5 class="card-title">Owner: David Jackson</h5>
+            {% endif %}
+            {% if x.owner_id == 0 %}
+              <h5 class="card-title">Owner: Brad Amos</h5>
+            {% endif %}
+
+            {% if x.sex_id == 0 %}
+              <h5 class="card-title">Sex: Female</h5>
+            {% endif %}
+            {% if x.sex_id == 1 %}
+              <h5 class="card-title">Sex: Male</h5>
+            {% endif %}
+            {% if x.sex_id == 2 %}
+              <h5 class="card-title">Sex: Cow</h5>
+            {% endif %}
+            {% if x.sex_id == 3 %}
+              <h5 class="card-title">Sex: Bull</h5>
+            {% endif %}
+            {% if x.sex_id == 4 %}
+              <h5 class="card-title">Sex: Heifer</h5>
+            {% endif %}
+
+            {% if x.pasture_id == 1 %}
+              <h5 class="card-title">Pasture: Benton County</h5>
+            {% endif %}
+            {% if x.pasture_id == 2 %}
+              <h5 class="card-title">Pasture: Feed Mill</h5>
+            {% endif %}
+            {% if x.pasture_id == 3 %}
+              <h5 class="card-title">Pasture: Maysville</h5>
+            {% endif %}
+            {% if x.pasture_id == 4 %}
+              <h5 class="card-title">Pasture: Caswell</h5>
+            {% endif %}
+            {% if x.pasture_id == 5 %}
+              <h5 class="card-title">Pasture: Obrian</h5>
+            {% endif %}
+            {% if x.pasture_id == 6 %}
+              <h5 class="card-title">Pasture: No Place</h5>
+            {% endif %}
+            <h5 class="card-title">Comments: {{x.comments}}</h5>
+            <button type="signup" class="editbtn" style="font-family:serif">Edit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  {% endfor %} 
+</div>
 
 
 {% endblock %}

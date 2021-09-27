@@ -26,7 +26,7 @@ class MainForm(forms.ModelForm):
 		
 		self.fields['sire'].required = False
 		self.fields['dam'].required = False
-		self.fields['sex'].required = False
+
 
 class EditForm(forms.ModelForm):
 

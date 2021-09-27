@@ -55,7 +55,7 @@ ROOT_URLCONF = 'cattle.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r'/Users/Kaiden Thrailkill/desktop/environment/50farms/cattle/Templates'],
+        'DIRS': [r'/home/kdot/Environment/50farms/cattle/Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
